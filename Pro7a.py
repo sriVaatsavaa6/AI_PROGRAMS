@@ -1,34 +1,30 @@
 class FC:
-    def __init__(self, rules, facts):
-        self.rules = rules
-        self.facts = set(facts)
+    def __init__(self, r, f):
+        self.r = r
+        self.f = set(f)
 
     def apply(self):
         change = True
         while change:
             change = False
-            for a, c in self.rules:
-                if a.issubset(self.facts) and c not in self.facts:
-                    self.facts.add(c)
+            for a, c in self.r:
+                if a.issubset(self.f) and c not in self.f:
+                    self.f.add(c)
                     change = True
 
 
 rules = [
     ({"has_fur(tiger)"}, "mammal(tiger)"),
-    ({"has_feathers(penguin)", "lays_eggs(penguin)"}, "bird(penguin)"),
-    ({"lays_eggs(sparrow)", "has_feathers(sparrow)"}, "bird(sparrow)"),
-    ({"has_fur(cat)"}, "mammal(cat)")
+    ({"has_feathers(penguin)", "lays_eggs(penguin)"}, "bird(penguin)")
 ]
 
 facts = {
     "has_fur(tiger)",
     "has_feathers(penguin)",
-    "lays_eggs(penguin)",
-    "lays_eggs(sparrow)",
-    "has_fur(cat)"
+    "lays_eggs(penguin)"
 }
 
 fc = FC(rules, facts)
 fc.apply()
 
-print("Derived Facts:", fc.facts)
+print("Derived Facts:", fc.f)
